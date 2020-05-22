@@ -1,0 +1,12 @@
+# Airbnb Config: https://www.npmjs.com/package/eslint-config-airbnb
+extends: 'airbnb-base'
+env:
+  node: true
+  jest: true
+rules:
+  # When using methods with underscores inside a class, you need to enable this rule
+  no-underscore-dangle:
+    - error
+    - allowAfterThis: true
+  linebreak-style: 0
+  max-classes-per-file: 'off'
