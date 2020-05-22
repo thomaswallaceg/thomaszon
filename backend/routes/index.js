@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'); // eslint-disable-line import/no-unresolved
+
+const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
