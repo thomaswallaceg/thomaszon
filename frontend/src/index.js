@@ -21,7 +21,7 @@ class LoginForm extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   handleSignIn(event) {
-    // SEND LOGIN INFO
+    // TODO: Send login credentials
     event.preventDefault();
   }
 

@@ -1,9 +1,13 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('postgres://thomaszon:hola@localhost:5432/thomaszonDB');
+const {
+  DB_USER, DB_PASSWORD, DB_URL, DB_PORT, DB_NAME,
+} = process.env;
+const sequelize = new Sequelize(
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_URL}:${DB_PORT}/${DB_NAME}`,
+);
 
 const User = sequelize.define('user', {
-  // attributes
   username: {
     type: Sequelize.STRING,
     primaryKey: true,
@@ -16,6 +20,5 @@ const User = sequelize.define('user', {
     type: Sequelize.ARRAY(Sequelize.STRING),
   },
 }, {});
-User.sync();
 
 module.exports = User;
