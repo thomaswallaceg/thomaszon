@@ -1,28 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HttpService } from './networking/HttpRequest';
 import './assets/login.css';
+
+const httpService = new HttpService();
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: '', password: '' };
+    this.state = { username: '', password: '' };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   handleUserChange(event) {
-    this.setState({ user: event.target.value });
+    this.setState({ username: event.target.value });
   }
 
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  handleSignIn(event) {
-    // TODO: Send login credentials
+  async handleSignIn(event) {
     event.preventDefault();
+    // eslint-disable-next-line no-unused-vars
+    const { success, message } = await httpService.post(
+      'login',
+      { username: this.state.username, password: this.state.password },
+    );
+    // TODO: react to successful login
   }
 
   render() {
@@ -30,13 +37,13 @@ class LoginForm extends React.Component {
       <form className="login-box" onSubmit={this.handleSignIn}>
         <div className="login-field-user">
           <label htmlFor="username">Username:</label>
-          <input type="text" value={this.state.user} onChange={this.handleUserChange} />
+          <input type="text" value={this.state.username} onChange={this.handleUserChange} />
         </div>
         <div className="login-field-password">
           <label htmlFor="password">Password:</label>
           <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
         </div>
-        <input className="login-signin-button" type="submit" value="Submit" />
+        <button className="login-signin-button" type="submit">Submit</button>
       </form>
     );
   }
