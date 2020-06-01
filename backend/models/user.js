@@ -1,24 +1,37 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 
-const {
-  DB_USER, DB_PASSWORD, DB_URL, DB_PORT, DB_NAME,
-} = process.env;
-const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_URL}:${DB_PORT}/${DB_NAME}`,
-);
+const bcrypt = require('bcrypt');
+const sequelizeInstance = require('./sequelize.js');
 
-const User = sequelize.define('user', {
+const User = sequelizeInstance.define('user', {
   username: {
-    type: Sequelize.STRING,
+    type: sequelize.STRING,
     primaryKey: true,
     allowNull: false,
   },
   password: {
-    type: Sequelize.STRING,
+    type: sequelize.STRING,
   },
-  sessions: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+}, {
+  hooks: {
+    beforeCreate: async (user) => {
+      const salt = await bcrypt.genSalt(12);
+      // eslint-disable-next-line no-param-reassign
+      user.password = await bcrypt.hash(user.password, salt);
+    },
   },
-}, {});
+});
+
+User.validatePassword = async (user, password) => {
+  const valid = await new Promise((resolve, reject) => {
+    bcrypt.compare(password, user.password, (err, res) => {
+      if (err) reject();
+      resolve(res);
+    });
+  });
+  return valid;
+};
+
+User.sync();
 
 module.exports = User;

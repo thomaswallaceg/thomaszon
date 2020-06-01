@@ -1,25 +1,36 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-require('dotenv').config();
-
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sequelizeInstance = require('./models/sequelize');
 const loginRouter = require('./routes/login');
 
 const app = express();
+
+const myStore = new SequelizeStore({ db: sequelizeInstance });
+myStore.sync();
+
+app.use(
+  session({
+    secret: 'a_random_secret_for_thomaszon',
+    store: myStore,
+    resave: true,
+    saveUninitialized: false,
+    proxy: true,
+  }),
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(cors({
-  origin: 'http://localhost:3001',
-}));
+app.use(cors({ origin: 'http://localhost:3001' }));
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
