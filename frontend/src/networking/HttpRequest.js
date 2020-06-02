@@ -7,12 +7,20 @@ class HttpService {
   }
 
   async post(path, options) {
-    const response = await axios.post(
-      `${this.url}:${this.port}/${path}`,
-      options,
-    );
-    const success = response.status === 200;
-    return { success, message: response.data };
+    let success;
+    let message;
+    try {
+      const response = await axios.post(
+        `${this.url}:${this.port}/${path}`,
+        options,
+      );
+      success = true;
+      message = response.data;
+    } catch (error) {
+      success = false;
+      message = error.response.data;
+    }
+    return { success, message };
   }
 
   // TODO: get method
