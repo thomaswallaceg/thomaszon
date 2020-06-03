@@ -3,8 +3,6 @@ const Product = require('../models/product');
 
 const router = express.Router();
 
-Product.generateFakeProducts();
-
 router.get('/', async (request, response) => {
   const productList = await Product.findAll({ attributes: ['id', 'name', 'description', 'stock', 'image'] });
   response.send(productList);
