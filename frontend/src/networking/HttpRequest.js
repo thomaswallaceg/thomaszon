@@ -18,12 +18,28 @@ class HttpService {
       message = response.data;
     } catch (error) {
       success = false;
-      message = error.response.data;
+      if (!error.response) {
+        message = 'No response';
+      } else {
+        message = error.response.data || 'No info';
+      }
     }
     return { success, message };
   }
 
-  // TODO: get method
+  async get(path, payload) {
+    try {
+      const response = await axios.get(
+        `${this.url}:${this.port}/${path}`,
+        payload,
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
-export { HttpService };
+const httpService = new HttpService();
+
+export { httpService as HttpService };

@@ -1,16 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ProductController } from '../networking/ProductController';
 import '../assets/home.css';
 
 class Homepage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { products: [] };
+  }
+
+  async componentDidMount() {
+    const products = await ProductController.getAllProducts();
+    this.setState({ products });
   }
 
   render() {
-    const products = [];
-    for (let i = 0; i < 100; i += 1) {
-      products[i] = <ProductPreview />;
+    const renderProducts = [];
+    for (let i = 0; i < this.state.products.length; i += 1) {
+      const p = this.state.products[i];
+      renderProducts[i] = (
+        <ProductPreview
+          key={p.id}
+          name={p.name}
+          description={p.description}
+          stock={p.stock}
+          image={p.image}
+        />
+      );
     }
 
     return (
@@ -32,7 +48,7 @@ class Homepage extends React.Component {
             </ul>
           </div>
           <div className="home-product-view">
-            {products}
+            {renderProducts}
           </div>
         </div>
       </div>
@@ -40,18 +56,32 @@ class Homepage extends React.Component {
   }
 }
 
-function ProductPreview() {
+function ProductPreview(props) {
   return (
     <div className="home-product">
-      <img className="home-product-image" src="http://lorempixel.com/640/480/" alt="product img" />
-      <h3 className="home-product-title">Name</h3>
-      <p className="home-product-description">Description desc descrip de descri d des description asdf asdf asdf aasdf asdf asdfasdfasd ffasdfasd</p>
+      <img className="home-product-image" src={props.image} alt="product img" />
+      <h3 className="home-product-title">{props.name}</h3>
+      <p className="home-product-description">{props.description}</p>
       <div className="home-product-bottomrow">
-        <p className="home-product-price">$price</p>
-        <p className="home-product-stock">stock</p>
+        <p className="home-product-price">$5</p>
+        <p className="home-product-stock">{`${props.stock} in stock.`}</p>
       </div>
     </div>
   );
 }
 
-export default Homepage;
+ProductPreview.propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  stock: PropTypes.number,
+  image: PropTypes.string,
+};
+
+ProductPreview.defaultProps = {
+  name: '',
+  description: '',
+  stock: 0,
+  image: '',
+};
+
+export { Homepage };
