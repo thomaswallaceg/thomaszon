@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (request, response) => {
   const productList = await Product.findAll({ attributes: ['id', 'name', 'description', 'stock', 'image'] });
-  response.send(productList);
+  response.send(productList.slice(0, 50));
 });
 
 module.exports = router;
