@@ -4,19 +4,21 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
-import LoginView from './pages/login';
-import Homepage from './pages/home';
+import { LoginView } from './pages/login';
+import { RegisterView } from './pages/register';
+import { Homepage } from './pages/home';
 
 export default function App() {
   return (
     <Router>
       <div>
-        <Redirect from="/" to="/login" />
         <Switch>
           <Route path="/login">
             <LoginView />
+          </Route>
+          <Route path="/register">
+            <RegisterView />
           </Route>
           <Route path="/home">
             <Homepage />

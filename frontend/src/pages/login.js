@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { HttpService } from '../networking/HttpRequest';
-import '../assets/login.css';
-
-const httpService = new HttpService();
+import { SessionController as LoginController } from '../networking/SessionController';
+import { InputField } from '../common/inputField';
+import { PreLoginForm } from '../common/preLoginForm';
+import '../assets/preLogin.css';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -27,11 +27,11 @@ class LoginForm extends React.Component {
   async handleSignIn(event) {
     event.preventDefault();
     const { username, password } = this.state;
-    const { success, message } = await httpService.post('login', { username, password });
+    const { success, message } = await LoginController.login(username, password);
     if (success) {
       this.setState({ redirect: '/home' });
     } else {
-      this.setState({ warning: <div className="login-error-text">{message}</div> });
+      this.setState({ warning: <div className="prelogin-error-text">{message}</div> });
     }
   }
 
@@ -42,17 +42,10 @@ class LoginForm extends React.Component {
     } else {
       res = (
         <div className="login-page">
-          <form className="login-form" onSubmit={this.handleSignIn}>
-            <div className="login-field-user">
-              <label htmlFor="username">Username:</label>
-              <input type="text" value={this.state.username} onChange={this.handleUserChange} />
-            </div>
-            <div className="login-field-password">
-              <label htmlFor="password">Password:</label>
-              <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
-            </div>
-            <button className="login-signin-button" type="submit">Submit</button>
-          </form>
+          <PreLoginForm handleSubmit={this.handleSignIn} buttonText="Log in">
+            <InputField title="Username" type="text" currentText={this.state.username} handleTextChange={this.handleUserChange} />
+            <InputField title="Password" type="password" currentText={this.state.password} handleTextChange={this.handlePasswordChange} />
+          </PreLoginForm>
           { this.state.warning }
         </div>
       );
@@ -63,11 +56,12 @@ class LoginForm extends React.Component {
 
 function LoginView() {
   return (
-    <div className="login-background-view">
+    <div className="prelogin-background-view">
       <h1>thomaszon</h1>
       <LoginForm />
     </div>
   );
 }
 
-export default LoginView;
+
+export { LoginView };
