@@ -10,9 +10,10 @@ class HttpService {
     let success;
     let message;
     try {
-      const options = { ...payload, withCredentials: credentials || false };
+      const options = { withCredentials: true };
       const response = await axios.post(
         `${this.url}:${this.port}/${path}`,
+        payload,
         options,
       );
       success = true;

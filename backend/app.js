@@ -36,6 +36,7 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(cors({
+  origin: true,
   credentials: true,
 }));
 app.use(express.json());
