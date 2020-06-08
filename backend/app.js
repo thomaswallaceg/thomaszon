@@ -23,6 +23,10 @@ app.use(
     resave: true,
     saveUninitialized: false,
     proxy: true,
+    cookie: {
+      maxAge: 99999999,
+      sameSite: 'lax',
+    },
   }),
 );
 
@@ -32,7 +36,6 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(cors({
-  origin: 'http://localhost:3001',
   credentials: true,
 }));
 app.use(express.json());

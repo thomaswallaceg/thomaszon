@@ -17,6 +17,7 @@ router.post('/', async (request, response) => {
   if (!validPassword) return response.status(400).send('Wrong password');
 
   request.session.username = loginUsername;
+  response.setHeader('Access-Control-Allow-Origin', request.headers.origin);
   return response.status(200).send(`Welcome, ${loginUsername}!`);
 });
 
