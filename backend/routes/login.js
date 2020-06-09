@@ -4,6 +4,7 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.post('/', async (request, response) => {
+  response.header('Access-Control-Allow-Origin', request.headers.origin);
   const { username: loginUsername, password: loginPassword } = request.body;
   if (!loginUsername) return response.status(400).send('No username');
   if (!loginPassword) return response.status(400).send('No password');
