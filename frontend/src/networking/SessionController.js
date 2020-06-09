@@ -1,6 +1,7 @@
 import { HttpService } from './HttpRequest';
 
 const loginRoute = 'login';
+const logoutRoute = 'logout';
 const registerRoute = 'register';
 
 class SessionController {
@@ -17,6 +18,15 @@ class SessionController {
     const { success, message } = await HttpService.post(
       registerRoute,
       { username, password },
+      true,
+    );
+    return { success, message };
+  }
+
+  static async logout() {
+    const { success, message } = await HttpService.post(
+      logoutRoute,
+      {},
       true,
     );
     return { success, message };
