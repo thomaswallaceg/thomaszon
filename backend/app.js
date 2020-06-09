@@ -9,6 +9,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelizeInstance = require('./models/sequelize');
 
 const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 const registerRouter = require('./routes/register');
 const productsRouter = require('./routes/products');
 
@@ -24,6 +25,9 @@ app.use(
     resave: true,
     saveUninitialized: false,
     proxy: true,
+    cookie: {
+      maxAge: 99999999,
+    },
   }),
 );
 
@@ -32,11 +36,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(cors({ origin: 'http://localhost:3001' }));
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/register', registerRouter);
 app.use('/products', productsRouter);
 

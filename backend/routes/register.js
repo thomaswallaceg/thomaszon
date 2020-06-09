@@ -4,6 +4,7 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.post('/', async (request, response) => {
+  response.header('Access-Control-Allow-Origin', request.headers.origin);
   const { username: newUsername, password: newPassword } = request.body;
   if (!newUsername) return response.status(400).send('No username');
   const usernameRegExp = /^([A-Za-z0-9-_])+$/g;
