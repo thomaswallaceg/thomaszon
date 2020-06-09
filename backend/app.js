@@ -9,6 +9,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelizeInstance = require('./models/sequelize');
 
 const loginRouter = require('./routes/login');
+const registerRouter = require('./routes/register');
 const productsRouter = require('./routes/products');
 
 const app = express();
@@ -43,6 +44,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 app.use('/products', productsRouter);
 
 // catch 404 and forward to error handler
