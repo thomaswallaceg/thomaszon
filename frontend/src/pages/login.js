@@ -1,9 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { HttpService } from '../networking/HttpRequest';
+import { LoginController } from '../networking/LoginController';
 import '../assets/login.css';
-
-const httpService = new HttpService();
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -27,7 +25,7 @@ class LoginForm extends React.Component {
   async handleSignIn(event) {
     event.preventDefault();
     const { username, password } = this.state;
-    const { success, message } = await httpService.post('login', { username, password });
+    const { success, message } = await LoginController.login(username, password);
     if (success) {
       this.setState({ redirect: '/home' });
     } else {
@@ -70,4 +68,4 @@ function LoginView() {
   );
 }
 
-export default LoginView;
+export { LoginView };
