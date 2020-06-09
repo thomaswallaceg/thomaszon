@@ -1,0 +1,21 @@
+.prelogin-background-view {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.prelogin-error-text {
+  width: 400px;
+  height: 26px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 140, 140);
+  border-style: solid;
+  border-width: 1px;
+  border-color: red;
+  border-radius: 5px;
+}

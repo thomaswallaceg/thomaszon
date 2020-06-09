@@ -1,0 +1,16 @@
+.prelogin-form {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 5px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.prelogin-submit-button {
+  width: 90%;
+  margin-top: 25px;
+}
